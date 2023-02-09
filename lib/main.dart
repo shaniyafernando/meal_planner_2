@@ -2,12 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:meal_planner/controllers/recipe_api.dart';
 import 'package:meal_planner/style_fragments.dart';
 import 'package:meal_planner/authentication/main_view.dart';
 import 'package:provider/provider.dart';
 import 'controllers/authentication_service.dart';
-import 'models/recipe.dart';
 import 'register_web_webview_stub.dart'
 if (dart.library.html) 'register_web_webview.dart';
 

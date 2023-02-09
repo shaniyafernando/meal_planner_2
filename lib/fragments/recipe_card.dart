@@ -48,7 +48,7 @@ class RecipeCard extends StatelessWidget {
                 GridTile(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Wrap(
                       children: [
