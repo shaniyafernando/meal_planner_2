@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../controllers/authentication_service.dart';
+import 'package:meal_planner/controllers/guest_service.dart';
+import 'package:meal_planner/views/add_guest_view.dart';
 import '../controllers/share.dart';
 import '../fragments/app_bar.dart';
 import '../fragments/drawer.dart';
+import '../models/guest.dart';
 
 class GuestListView extends StatefulWidget {
   const GuestListView({Key? key}) : super(key: key);
@@ -18,6 +20,12 @@ class _GuestListViewState extends State<GuestListView> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     var width = screenSize.width;
+
+    var savedData =  FirebaseFirestore.instance.collection('guest').where('userId',
+        isEqualTo: FirebaseAuth.instance.currentUser!.uid).withConverter(
+        fromFirestore: Guest.fromFireStore,
+        toFirestore: (Guest guest,_) => guest.toFireStore()).snapshots();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lime,
@@ -25,7 +33,11 @@ class _GuestListViewState extends State<GuestListView> {
         actions: [
           IconButton(
               onPressed: () {
-                AuthenticationService(FirebaseAuth.instance).signOut(context);
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) =>
+                        const AddGuest()
+                    )
+                );
               },
               icon: const Padding(
                 padding: EdgeInsets.only(right: 20.0),
@@ -43,22 +55,33 @@ class _GuestListViewState extends State<GuestListView> {
       drawer: const CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
-            Text("Shaniya Fernando", style: TextStyle(fontWeight: FontWeight.bold),),
-            SizedBox(height: 10,),
-            Text("wheat-free, dairy-free"),
-            SizedBox(height: 40,),
-            Text("Diren Fernando", style: TextStyle(fontWeight: FontWeight.bold),),
-            SizedBox(height: 10,),
-            Text("wheat-free, kosher"),
-            SizedBox(height: 40,),
-            Text("Avani Fernando", style: TextStyle(fontWeight: FontWeight.bold),),
-            SizedBox(height: 10,),
-            Text("vegan"),
-            SizedBox(height: 40,),
-          ],
+        child: StreamBuilder<QuerySnapshot<Guest>>(
+          stream: savedData,
+          builder: (context, snapshot) {
+            List<QueryDocumentSnapshot<Guest>> guests = snapshot.data!.docs;
+            return ListView.builder(
+              itemCount: guests.length,
+                itemBuilder: (context, index){
+                  return ListTile(
+                    title: Text(guests.elementAt(index).data().name),
+                    subtitle: Text(convertListToString(guests.elementAt(index).data().healthLabels)),
+                    trailing: Row(
+                      children: [
+                        IconButton(onPressed:  (){
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) =>
+                               AddGuest(guest: guests.elementAt(index).data())
+                              )
+                          );
+                        }, icon: const Icon(Icons.edit)),
+                        IconButton(onPressed:  (){
+                          GuestService().deleteGuest(guests.elementAt(index).data());
+                        }, icon: const Icon(Icons.delete)),
+                      ],
+                    ),
+                  );
+                });
+          }
         ),
       ),
     );

@@ -102,4 +102,3 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 #  flutter run -d chrome --web-renderer html
-# open -a Google\ Chrome --args --disable-web-security --user-data-dir

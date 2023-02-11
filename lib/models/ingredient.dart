@@ -16,34 +16,31 @@ class Ingredient {
       required this.food,
       required this.foodId});
 
-  factory Ingredient.fromJson(Map<String, dynamic> json) =>
-      _ingredientFromJson(json);
-
-  Map<String, dynamic> toJson() => _ingredientToJson(this);
-
-  @override
-  String toString() {
-    return 'IngredientModel{foodCategory: $foodCategory, quantity: $quantity, weight: $weight, measure: $measure, food: $food, foodId: $foodId}';
+  factory Ingredient.fromFireStore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot,SnapshotOptions? options
+      ) {
+    final json = snapshot.data();
+    return Ingredient(
+        foodCategory: json?['foodCategory'] as String,
+        quantity: json?['quantity'] as double,
+        weight: json?['weight'] as double,
+        measure: json?['measure'] as String,
+        food: json?['food'] as String,
+        foodId: json?['foodId'] as String
+    );
   }
-}
 
-Ingredient _ingredientFromJson(Map<String, dynamic> json) {
-  return Ingredient(
-      foodCategory: json['foodCategory'] as String,
-      quantity: json['quantity'] as double,
-      weight: json['weight'] as double,
-      measure: json['measure'] as String,
-      food: json['food'] as String,
-      foodId: json['foodId'] as String);
-}
-
-Map<String, dynamic> _ingredientToJson(Ingredient instance) =>
-    <String, dynamic>{
-      'foodCategory': instance.foodCategory,
-      'quantity': instance.quantity,
-      'weight': instance.weight,
-      'measure': instance.measure,
-      'food': instance.food,
-      'foodId': instance.foodId
+  Map<String, dynamic> toFireStore() {
+    return {
+      'foodCategory': foodCategory,
+      'quantity': quantity,
+      'weight': weight,
+      'measure': measure,
+      'food': food,
+      'foodId': foodId
     };
+  }
+
+}
+
 

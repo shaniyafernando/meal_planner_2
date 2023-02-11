@@ -15,7 +15,7 @@ class BookmarkController {
   // }
 
   Future<DocumentReference> addRecipe(Recipe recipe) {
-    return collection.add(recipe.toJson());
+    return collection.add(recipe.toFireStore());
   }
 
   void deleteRecipe(Recipe recipe) async {
