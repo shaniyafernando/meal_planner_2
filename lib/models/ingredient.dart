@@ -1,12 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Ingredient {
-  String? foodCategory;
-  double? quantity;
-  double? weight;
-  String? measure;
-  String? food;
-  String? foodId;
+  String foodCategory;
+  double quantity;
+  double weight;
+  String measure;
+  String food;
+  String foodId;
 
   Ingredient(
       {required this.foodCategory,

@@ -98,8 +98,17 @@ class _PlannerViewState extends State<PlannerView> {
                         buttonText: "Generate Shopping List",
                         fontSize: 16.0,
                         buttonTapped: () {
+                          List<Ingredient> ingredients = [
+                            Ingredient(food: "flour", foodCategory:"grains", foodId: "food_ahebfs0a985an4aubqaebbipra58", measure: "tablespoon", quantity: 3, weight: 24),
+                            Ingredient(food: "egg", foodCategory:"Eggs", foodId: "food_ahebfs0a985an4aubqaebbipra58", measure: "tablespoon", quantity: 1, weight: 50),
+                            Ingredient(food: "breadcrumbs", foodCategory:"bread, rolls and tortillas", foodId: "food_ahebfs0a985an4aubqaebbipra58", measure: "tablespoon", quantity: 3, weight: 50),
+                            Ingredient(food: "fish", foodCategory:"seafood", foodId: "food_ahebfs0a985an4aubqaebbipra58", measure: "tablespoon", quantity: 3, weight: 500),
+                            Ingredient(food: "sunflower oil", foodCategory:"Oils", foodId: "food_ahebfs0a985an4aubqaebbipra58", measure: "tablespoon", quantity: 3, weight: 40.8),
+                            Ingredient(food: "salt", foodCategory:"Condiments and sauces", foodId: "food_ahebfs0a985an4aubqaebbipra58", measure: "tablespoon", quantity: 3, weight: 4),
+                            Ingredient(food: "black pepper", foodCategory:"Condiments and sauces", foodId: "food_ahebfs0a985an4aubqaebbipra58", measure: "tablespoon", quantity: 3, weight: 2),
+                          ];
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ShoppingListView(ingredients: [],)));
+                              builder: (context) =>  ShoppingListView(ingredients: ingredients,)));
                         }),
                   ),
                 ],

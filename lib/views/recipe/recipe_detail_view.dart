@@ -25,8 +25,8 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
           centerTitle: true,
           actions: [
             IconButton(onPressed: (){ bookmarkController.addRecipe(widget.recipe);}, icon: const Icon(Icons.bookmark_add)),
-            IconButton(onPressed: (){printDoc("SHARE", 'recipe', null,null,widget.recipe);}, icon: const Icon(Icons.download_for_offline)),
-
+            IconButton(onPressed: (){printDoc("DOWNLOAD", 'recipe', null,null,widget.recipe);}, icon: const Icon(Icons.download_for_offline)),
+            IconButton(onPressed: (){printDoc("SHARE", 'recipe', null,null,widget.recipe);}, icon: const Icon(Icons.share)),
           ],
         ),
         body: Container(

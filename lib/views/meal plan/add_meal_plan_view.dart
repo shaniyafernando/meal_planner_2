@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/controllers/meal_plan_service.dart';
-import 'package:meal_planner/controllers/share.dart';
 import 'package:meal_planner/models/meal_plan.dart';
 import 'package:multiselect/multiselect.dart';
 
@@ -30,12 +29,45 @@ class _AddMealPlanViewState extends State<AddMealPlanView> {
   final dateController = TextEditingController();
   DateTime dateTime = DateTime.now();
 
+  List<Recipe> r = [];
+  List<Guest> g = [];
+
   List<String> selectedGuests = [];
   List<String> selectedRecipes = [];
 
 
   @override
   Widget build(BuildContext context) {
+
+
+    var recipeSnapshots =  FirebaseFirestore.instance
+        .collection('recipe')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .withConverter(
+        fromFirestore: Recipe.fromFireStore,
+        toFirestore: (Recipe recipe, _) => recipe.toFireStore())
+        .snapshots();
+
+    recipeSnapshots.forEach((recipes) {
+      for (var element in recipes.docs) {
+        r.add(element.data());
+      }
+    });
+
+    var guestSnapshots = FirebaseFirestore.instance
+        .collection('guest')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .withConverter(
+        fromFirestore: Guest.fromFireStore,
+        toFirestore: (Guest guest, _) => guest.toFireStore())
+        .snapshots();
+
+    guestSnapshots.forEach((guests) {
+      for (var element in guests.docs) {
+        g.add(element.data());
+      }
+    });
+
     dateController.text = '${dateTime.day}-${dateTime.month}-${dateTime.year}';
 
     double symmetricHorizontalPadding = 25.0;
@@ -65,8 +97,6 @@ class _AddMealPlanViewState extends State<AddMealPlanView> {
             GuestDTO(element.data().name, element.data().healthLabels);
         guestOptions.add(element.data().name);
       }
-      print(guestOptions);
-      print(guestOptionsMap);
     });
 
     for (var element in selectedGuests) {
@@ -100,8 +130,6 @@ class _AddMealPlanViewState extends State<AddMealPlanView> {
         for (var element in event.docs) {
           recipeOptions[element.data().referenceId] = element.data().label!;
         }
-        print(recipeOptions);
-        print(healthLabelsOfSelectedGuests);
       });
     }else{
       FirebaseFirestore.instance
@@ -114,8 +142,6 @@ class _AddMealPlanViewState extends State<AddMealPlanView> {
         for (var element in event.docs) {
           recipeOptions[element.data().referenceId] = element.data().label!;
         }
-        print(recipeOptions);
-        print(healthLabelsOfSelectedGuests);
 
       });
     }
@@ -243,9 +269,7 @@ class _AddMealPlanViewState extends State<AddMealPlanView> {
               DropDownMultiSelect(
                 onChanged: (List<String> x) {
                   setState(() {
-                    print(x);
                     selectedGuests = x;
-                    print(selectedGuests);
                   });
                 },
                 options: guestOptions,
@@ -274,44 +298,17 @@ class _AddMealPlanViewState extends State<AddMealPlanView> {
                   textColour: Colors.white,
                   buttonText: "Save",
                   fontSize: 16.0,
-                  buttonTapped: () {
+                  buttonTapped: (){
 
-                    List<Recipe> r = [];
-                    List<Guest> g = [];
 
-                    FirebaseFirestore.instance
-                        .collection('recipe')
-                        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                        .where('Document ID', arrayContainsAny: selectedRecipeIds)
-                        .withConverter(
-                        fromFirestore: Recipe.fromFireStore,
-                        toFirestore: (Recipe recipe, _) => recipe.toFireStore())
-                        .snapshots().listen((event) {
-                      for (var element in event.docs) {
-                        r.add(element.data());
-                      }
-                    });
-
-                    FirebaseFirestore.instance
-                        .collection('guest')
-                        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                        .where('Document ID', arrayContainsAny: selectedGuestIds)
-                        .withConverter(
-                        fromFirestore: Guest.fromFireStore,
-                        toFirestore: (Guest guest, _) => guest.toFireStore())
-                        .snapshots().listen((event) {
-                      for (var element in event.docs) {
-                        g.add(element.data());
-                      }
-                    });
-
+                    // recipeIds: selectedRecipeList,
+                    // guestIds: selectedGuestList,
                     MealPlan mealPlan = MealPlan(
                         date: dateTime,
                         numberOfServings:
-                            int.parse(noOfServingsController.text.trim()),
-                        // recipeIds: selectedRecipeList,
-                        // guestIds: selectedGuestList,
-                      uid: FirebaseAuth.instance.currentUser!.uid, recipeIds: r, guestIds: g
+                            double.parse(noOfServingsController.text.trim()),
+                      recipeIds: r, guestIds: g,
+                      uid: FirebaseAuth.instance.currentUser!.uid
                     );
 
                     if(widget.existingMealPlan == null){
@@ -320,7 +317,7 @@ class _AddMealPlanViewState extends State<AddMealPlanView> {
                       MealPlan updateMealPlan = MealPlan(
                           date: dateTime,
                           numberOfServings:
-                          int.parse(noOfServingsController.text.trim()),
+                          double.parse(noOfServingsController.text.trim()),
                           recipeIds: selectedRecipeList,
                           guestIds: selectedGuestList,
                           uid: FirebaseAuth.instance.currentUser!.uid,

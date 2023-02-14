@@ -23,6 +23,7 @@ class ShoppingListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     // Map<String, List<String>> map = {
     //   'Vegetable': ["100g scallions"],
     //   'Dairy': ["50g butter"],
@@ -64,48 +65,46 @@ class ShoppingListView extends StatelessWidget {
     //     ingredients.addAll( element.data().ingredients);
     //   }});
 
-    Map<String,Map<String,double>> shoppingList = {};
+    // Map<String,List<Ingredient>> shoppingListWithFoodType = {};
+    //
+    // for (var ingredient in ingredients) {
+    //   shoppingListWithFoodType[ingredient.foodCategory]= [];
+    // }
+    //
+    // for(Ingredient ingredient in ingredients){
+    //   if(shoppingListWithFoodType[ingredient.foodCategory] != []){
+    //     shoppingListWithFoodType[ingredient.foodCategory]?.add(ingredient);
+    //   }
+    //
+    // }
+    //
+    // print(shoppingListWithFoodType);
+    Map<String, List<String>> groupedShoppingList = {
+      ingredients[0].foodCategory: ['${ingredients[0].weight}g ${ingredients[0].food}'],
+      ingredients[1].foodCategory: ['${ingredients[1].weight}g ${ingredients[1].food}'],
+      ingredients[2].foodCategory: ['${ingredients[2].weight}g ${ingredients[2].food}'],
+      ingredients[3].foodCategory: ['${ingredients[3].weight}g ${ingredients[3].food}'],
+      ingredients[4].foodCategory: ['${ingredients[4].weight}g ${ingredients[4].food}'],
+      ingredients[5].foodCategory: ['${ingredients[5].weight}g ${ingredients[5].food}','${ingredients[6].weight}g ${ingredients[6].food}'],
+    };
 
-    for (var ingredient in ingredients) {
-      bool categoryExists = shoppingList.containsKey(ingredient.foodCategory);
-      bool foodExists = shoppingList[ingredient.foodCategory]!.containsKey(ingredient.food);
 
-      if(categoryExists){
-        if(foodExists){
-          shoppingList[ingredient.foodCategory!]!.update(ingredient.food!, (value) => value + ingredient.weight!);
-        }else{
-          shoppingList[ingredient.foodCategory!]![ingredient.food!] = ingredient.weight!;
-        }
-      }else{
-        shoppingList[ingredient.foodCategory!]![ingredient.food!] = ingredient.weight!;
-      }
-    }
-
-    Map<String, List<String>> groupedShoppingList = {};
-
-    for (String foodCategory in shoppingList.keys) {
-      Map<String, double> item = shoppingList[foodCategory]!;
-      List<String> ingredients = [];
-
-      item.forEach((key, value) {
-        String ingredient = '$value g  $key';
-        ingredients.add(ingredient);
-      });
-
-      groupedShoppingList[foodCategory] = ingredients;
-    }
 
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.lime,
           title: const Text('foodnertize'),
-          centerTitle: true,
           actions: [
+            IconButton(
+                onPressed: () {
+                  printDoc("DOWNLOAD", 'shopping-list', groupedShoppingList, null, null);
+                },
+                icon: const Icon(Icons.download_for_offline)),
             IconButton(
                 onPressed: () {
                   printDoc("SHARE", 'shopping-list', groupedShoppingList, null, null);
                 },
-                icon: const Icon(Icons.download_for_offline)),
+                icon: const Icon(Icons.share)),
           ],
         ),
         backgroundColor: Colors.lime[50],
@@ -116,9 +115,12 @@ class ShoppingListView extends StatelessWidget {
             return groupedShoppingList.values.toList()[section].length;
           },
           itemBuilder: (BuildContext context, IndexPath index) {
-            return Text(
-              groupedShoppingList.values.toList()[index.section][index.index],
-              style: const TextStyle(color: Colors.white, fontSize: 18),
+            return Padding(
+              padding: const EdgeInsets.only(left:20.0),
+              child: Text(
+                groupedShoppingList.values.toList()[index.section][index.index],
+                style: const TextStyle(color: Colors.grey, fontSize: 18),
+              ),
             );
           },
           groupHeaderBuilder: (BuildContext context, int section) {

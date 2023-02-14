@@ -106,6 +106,7 @@ import '../models/recipe.dart';
     String category = key;
     return pw.Column(
       mainAxisAlignment: pw.MainAxisAlignment.start,
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
         pw.Text(category),
         pw.SizedBox(height: 10.0),
@@ -119,13 +120,11 @@ import '../models/recipe.dart';
   }
 
   buildShoppingListPdf(Map map) {
-    return pw.Padding(
-        padding: const pw.EdgeInsets.all(25.0),
-        child:pw.ListView.builder(
+    return pw.ListView.builder(
             itemBuilder: (context, index) {
               return shoppingCategoryTile(map.keys.elementAt(index), map.values.elementAt(index));
             },
-            itemCount: map.length)
+            itemCount: map.length
     );
   }
 
@@ -150,9 +149,10 @@ import '../models/recipe.dart';
         }));
     if(action == 'SHARE'){
       await Printing.sharePdf(bytes: await doc.save(), filename: 'my-$component.pdf');
+    }else{
+      await Printing.layoutPdf(
+          onLayout: (PdfPageFormat format) async => doc.save());
     }
-    await Printing.layoutPdf(
-        onLayout: (PdfPageFormat format) async => doc.save());
   }
 
 

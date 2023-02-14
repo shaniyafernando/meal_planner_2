@@ -15,6 +15,7 @@ class GuestListView extends StatefulWidget {
 }
 
 class _GuestListViewState extends State<GuestListView> {
+  List<Guest> guestList = [];
   @override
   Widget build(BuildContext context) {
 
@@ -43,9 +44,16 @@ class _GuestListViewState extends State<GuestListView> {
                   color: Colors.white,
                 ),
               )),
-          IconButton(onPressed: (){
-            printDoc("SHARE", 'shopping-list', null, null, null);
-          }, icon: const Icon(Icons.download_for_offline)),
+          IconButton(
+              onPressed: () {
+                printDoc("DOWNLOAD", 'guest', null, guestList, null);
+              },
+              icon: const Icon(Icons.download_for_offline)),
+          IconButton(
+              onPressed: () {
+                printDoc("SHARE", 'guest', null,guestList, null);
+              },
+              icon: const Icon(Icons.share)),
         ],
       ),
       backgroundColor: Colors.lime[50],
@@ -64,6 +72,7 @@ class _GuestListViewState extends State<GuestListView> {
                       userId: guests.elementAt(index).data().userId,
                       referenceId: guests.elementAt(index).reference.id
                   );
+                  guestList.add(guest);
                   return ListTile(
                     title: Text(guest.name),
                     subtitle: Text(convertListToString(guest.healthLabels)),
