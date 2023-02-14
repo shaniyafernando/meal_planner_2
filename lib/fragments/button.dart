@@ -10,7 +10,7 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: buttonTapped,
       child: Padding(
         padding: const EdgeInsets.all(4.0),

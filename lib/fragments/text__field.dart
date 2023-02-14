@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 var textFieldBoxDecoration = BoxDecoration(
     color: Colors.lime[50],
     border: Border.all(color: Colors.white),
-    borderRadius: BorderRadius.circular(12.0));
+    // borderRadius: BorderRadius.circular(20.0)
+);
 
 class InputField extends StatelessWidget {
   final double symmetricHorizontalPadding;

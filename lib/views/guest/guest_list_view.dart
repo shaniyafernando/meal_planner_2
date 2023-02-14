@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/controllers/guest_service.dart';
-import 'package:meal_planner/views/add_guest_view.dart';
-import '../controllers/share.dart';
-import '../fragments/app_bar.dart';
-import '../fragments/drawer.dart';
-import '../models/guest.dart';
+import 'package:meal_planner/views/guest/add_guest_view.dart';
+import '../../controllers/share.dart';
+import '../../fragments/drawer.dart';
+import '../../models/guest.dart';
 
 class GuestListView extends StatefulWidget {
   const GuestListView({Key? key}) : super(key: key);
@@ -18,10 +17,8 @@ class GuestListView extends StatefulWidget {
 class _GuestListViewState extends State<GuestListView> {
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-    var width = screenSize.width;
 
-    var savedData =  FirebaseFirestore.instance.collection('guest').where('userId',
+    Stream<QuerySnapshot<Guest>>  savedData =  FirebaseFirestore.instance.collection('guest').where('userId',
         isEqualTo: FirebaseAuth.instance.currentUser!.uid).withConverter(
         fromFirestore: Guest.fromFireStore,
         toFirestore: (Guest guest,_) => guest.toFireStore()).snapshots();
@@ -29,7 +26,7 @@ class _GuestListViewState extends State<GuestListView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lime,
-        title: width < 500 ? leftAlignAppBarTitle() : centerAlignAppBarTitle(),
+        title: const Text('foodnertize'),
         actions: [
           IconButton(
               onPressed: () {
@@ -53,36 +50,42 @@ class _GuestListViewState extends State<GuestListView> {
       ),
       backgroundColor: Colors.lime[50],
       drawer: const CustomDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: StreamBuilder<QuerySnapshot<Guest>>(
-          stream: savedData,
-          builder: (context, snapshot) {
+      body: StreamBuilder<QuerySnapshot<Guest>>(
+        stream: savedData,
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
             List<QueryDocumentSnapshot<Guest>> guests = snapshot.data!.docs;
             return ListView.builder(
-              itemCount: guests.length,
+                itemCount: guests.length,
                 itemBuilder: (context, index){
+                  Guest guest = Guest(
+                      name: guests.elementAt(index).data().name,
+                      healthLabels: guests.elementAt(index).data().healthLabels,
+                      userId: guests.elementAt(index).data().userId,
+                      referenceId: guests.elementAt(index).reference.id
+                  );
                   return ListTile(
-                    title: Text(guests.elementAt(index).data().name),
-                    subtitle: Text(convertListToString(guests.elementAt(index).data().healthLabels)),
-                    trailing: Row(
-                      children: [
-                        IconButton(onPressed:  (){
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) =>
-                               AddGuest(guest: guests.elementAt(index).data())
-                              )
-                          );
-                        }, icon: const Icon(Icons.edit)),
-                        IconButton(onPressed:  (){
-                          GuestService().deleteGuest(guests.elementAt(index).data());
-                        }, icon: const Icon(Icons.delete)),
-                      ],
-                    ),
+                    title: Text(guest.name),
+                    subtitle: Text(convertListToString(guest.healthLabels)),
+                    leading: IconButton(onPressed:  (){
+                      GuestService().deleteGuest(guest);
+                    }, icon: const Icon(Icons.delete)),
+                    trailing: IconButton(onPressed:  (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) =>
+                              AddGuest(guest: guest)
+                          )
+                      );
+                    }, icon: const Icon(Icons.edit)),
                   );
                 });
           }
-        ),
+          if(!snapshot.hasData){
+            return const Center(child: Text('no data!'),);
+          }
+          if(snapshot.hasError){}
+          return Center(child: Text("${snapshot.error}"),);
+        }
       ),
     );
   }

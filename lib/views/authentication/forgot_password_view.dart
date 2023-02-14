@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:meal_planner/fragments/dialog.dart';
 import 'package:meal_planner/style_fragments.dart';
 
-import '../controllers/authentication_service.dart';
-import '../fragments/button.dart';
-import '../fragments/text__field.dart';
+import '../../controllers/authentication_service.dart';
+import '../../fragments/button.dart';
+import '../../fragments/text__field.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({Key? key}) : super(key: key);

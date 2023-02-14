@@ -1,22 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-// import '../controllers/recipe_api.dart';
-import '../fragments/drawer.dart';
-import '../fragments/recipe_card.dart';
-import '../models/recipe.dart';
+import '../../fragments/drawer.dart';
+import '../../fragments/recipe_card.dart';
+import '../../models/recipe.dart';
 
 class SavedRecipeView extends StatelessWidget {
   const SavedRecipeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-    var width = screenSize.width;
-    var savedData =  FirebaseFirestore.instance.collection('recipe').where('userId', 
-        isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots();
+
+    Stream<QuerySnapshot<Recipe>> savedData =  FirebaseFirestore.instance.collection('recipe').where('userId',
+        isEqualTo: FirebaseAuth.instance.currentUser!.uid).withConverter(
+        fromFirestore: Recipe.fromFireStore,
+        toFirestore: (Recipe recipe,_) => recipe.toFireStore()).snapshots();
+
     var screenWidth = MediaQuery.of(context).size.width;
+
     int crossAxisCount = 1;
     if(screenWidth < 500){
       crossAxisCount = 1;
@@ -25,6 +26,7 @@ class SavedRecipeView extends StatelessWidget {
     }else{
       crossAxisCount = 3;
     }
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.lime,
@@ -33,9 +35,9 @@ class SavedRecipeView extends StatelessWidget {
         ),
         backgroundColor: Colors.lime[50],
         drawer: const CustomDrawer(),
-        body: StreamBuilder(
+        body: StreamBuilder<QuerySnapshot<Recipe>>(
             stream: savedData,
-            builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+            builder: ( context, snapshot){
               if (snapshot.hasData) {
                 return GridView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
@@ -43,8 +45,7 @@ class SavedRecipeView extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index)  {
-                    Recipe recipe =  Recipe.fromSnapshot(snapshot.data!.docs[index]);
-                    return RecipeCard(recipe: recipe, showDeleteButton: true,);
+                    return RecipeCard(recipe: snapshot.data!.docs.elementAt(index).data() , showDeleteButton: true,);
                   }, gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
                     childAspectRatio: 1.75

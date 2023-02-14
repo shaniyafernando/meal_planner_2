@@ -18,7 +18,7 @@ class Recipe {
   List<dynamic> dishType = [];
   List<dynamic> cuisineType = [];
   String? externalId;
-  String? referenceId;
+  String referenceId;
   String userId;
 
   Recipe({
@@ -39,7 +39,7 @@ class Recipe {
     required this.cuisineType,
     required this.externalId,
     required this.userId,
-    this.referenceId
+    required this.referenceId
   });
 
   factory Recipe.fromFireStore(
@@ -64,9 +64,37 @@ class Recipe {
         cuisineType: json?['cuisineType'],
         ingredients: _convertIngredients(json?['ingredients']),
         externalId: json?['externalId'],
-        userId: json?['userId']
+        userId: json?['userId'], referenceId: snapshot.reference.id
     );
   }
+
+factory Recipe.fromQuery(
+    QueryDocumentSnapshot<Map<String, dynamic>> snapshot
+      ) {
+    final json = snapshot.data();
+    return Recipe(
+        uri: json['uri'] ,
+        label: json['label'],
+        image: json['image'],
+        source: json['source'],
+        url: json['url'],
+        numberOfServings: json['yield'],
+        calories: json['calories'],
+        totalWeight: json['totalWeight'],
+        ingredientLines: json['ingredientLines'],
+        dietLabels: json['dietLabels'],
+        healthLabels: json['healthLabels'],
+        mealType: json['mealType'],
+        dishType: json['dishType'],
+        cuisineType: json['cuisineType'],
+        ingredients: _convertIngredients(json['ingredients']),
+        externalId: json['externalId'],
+        userId: json['userId'],
+        referenceId: snapshot.reference.id
+    );
+  }
+
+
 
   Map<String, dynamic> toFireStore() {
     return {
@@ -91,11 +119,11 @@ class Recipe {
   }
 }
 
-List<Ingredient> _convertIngredients(List<DocumentSnapshot<Map<String, dynamic>>> ingredientMap) {
+List<Ingredient> _convertIngredients(List<dynamic> ingredientMap) {
   final ingredients = <Ingredient>[];
 
   for (var ingredient in ingredientMap) {
-    ingredients.add(Ingredient.fromFireStore(ingredient,null));
+    ingredients.add(Ingredient.fromFireStore(ingredient));
   }
   return ingredients;
 }

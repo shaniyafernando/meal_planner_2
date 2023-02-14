@@ -14,8 +14,8 @@ class GuestService{
     return collection.add(guest.toFireStore());
   }
 
-  void updateGuest(Guest guest) async {
-    await collection.doc(guest.referenceId).update(guest.toFireStore());
+  void updateGuest(Guest guest) {
+     collection.doc(guest.referenceId).update(guest.toFireStore());
   }
 
   void deleteGuest(Guest guest) async {

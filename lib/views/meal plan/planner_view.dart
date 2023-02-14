@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:meal_planner/controllers/share.dart';
 import 'package:meal_planner/fragments/button.dart';
 import 'package:meal_planner/fragments/recipe_card.dart';
-import 'package:meal_planner/views/add_meal_plan_view.dart';
-import 'package:meal_planner/views/shopping_list_view.dart';
-import '../controllers/meal_plan_service.dart';
-import '../fragments/drawer.dart';
-import '../models/guest.dart';
-import '../models/meal_plan.dart';
-import '../models/recipe.dart';
+import 'package:meal_planner/views/meal%20plan/add_meal_plan_view.dart';
+import 'package:meal_planner/views/meal%20plan/shopping_list_view.dart';
+import '../../controllers/meal_plan_service.dart';
+import '../../fragments/drawer.dart';
+import '../../models/guest.dart';
+import '../../models/ingredient.dart';
+import '../../models/meal_plan.dart';
+import '../../models/recipe.dart';
 
 class PlannerView extends StatefulWidget {
   const PlannerView({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class PlannerView extends StatefulWidget {
 class _PlannerViewState extends State<PlannerView> {
   DateTimeRange initialDateRange = DateTimeRange(
       start: DateTime.now(), end: DateTime.now().add(const Duration(days: 5)));
+  List<Ingredient> ingredients = [];
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,7 @@ class _PlannerViewState extends State<PlannerView> {
                         fontSize: 16.0,
                         buttonTapped: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ShoppingListView(dateTimeRange: initialDateRange,)));
+                              builder: (context) => ShoppingListView(ingredients: [],)));
                         }),
                   ),
                 ],

@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meal_planner/models/recipe.dart';
+
+import 'guest.dart';
 
 class MealPlan{
   String? referenceId;
   DateTime date;
   int numberOfServings;
-  List<String> recipeIds;
-  List<String> guestIds;
+  List<Recipe> recipeIds;
+  List<Guest> guestIds;
   String uid;
 
   MealPlan(

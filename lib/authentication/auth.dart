@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meal_planner/views/login_view.dart';
-import 'package:meal_planner/views/register_view.dart';
+import 'package:meal_planner/views/authentication/login_view.dart';
+import 'package:meal_planner/views/authentication/register_view.dart';
 
 class Auth extends StatefulWidget {
   const Auth({Key? key}) : super(key: key);

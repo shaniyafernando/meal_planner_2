@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meal_planner/views/saved_recipes_view.dart';
-import 'package:meal_planner/views/shopping_list_view.dart';
+import 'package:meal_planner/views/meal%20plan/redirect_planner.dart';
+import 'package:meal_planner/views/recipe/saved_recipes_view.dart';
+import 'package:meal_planner/views/meal%20plan/shopping_list_view.dart';
 
-import '../views/guest_list_view.dart';
-import '../views/home_view.dart';
-import '../views/planner_view.dart';
+import '../views/guest/guest_list_view.dart';
+import '../views/recipe/home_view.dart';
+import '../views/meal plan/planner_view.dart';
 
 
 class CustomDrawer extends StatelessWidget {
@@ -65,7 +66,7 @@ class CustomDrawer extends StatelessWidget {
               onTap: (){
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) =>
-                    const PlannerView()
+                    const RedirectPlanner()
                     )
                 );
               },
@@ -88,24 +89,24 @@ class CustomDrawer extends StatelessWidget {
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.shopping_cart, color: iconColour),
-              title: Text(
-                'S H O P P I N G  L I S T',
-                style: TextStyle(
-                  fontSize: fontSize,
-                  color: fontColour,
-                ),
-              ),
-              onTap: (){
-                Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) =>
-                        const ShoppingListView()
-                    )
-                );
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.shopping_cart, color: iconColour),
+            //   title: Text(
+            //     'S H O P P I N G  L I S T',
+            //     style: TextStyle(
+            //       fontSize: fontSize,
+            //       color: fontColour,
+            //     ),
+            //   ),
+            //   onTap: (){
+            //     Navigator.of(context).push(
+            //         MaterialPageRoute(
+            //             builder: (context) =>
+            //             const ShoppingListView()
+            //         )
+            //     );
+            //   },
+            // ),
           ],
         )
     );

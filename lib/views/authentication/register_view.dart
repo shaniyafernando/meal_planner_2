@@ -4,9 +4,9 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:meal_planner/style_fragments.dart';
 
-import '../controllers/authentication_service.dart';
-import '../fragments/button.dart';
-import '../fragments/text__field.dart';
+import '../../controllers/authentication_service.dart';
+import '../../fragments/button.dart';
+import '../../fragments/text__field.dart';
 
 class RegisterView extends StatefulWidget {
   final VoidCallback showLoginView;

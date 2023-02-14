@@ -18,8 +18,8 @@ class BookmarkController {
     return collection.add(recipe.toFireStore());
   }
 
-  void deleteRecipe(Recipe recipe) async {
-    await collection.doc(recipe.referenceId).delete();
+  void deleteRecipe(Recipe recipe){
+    collection.doc(recipe.referenceId).delete();
   }
 }
 

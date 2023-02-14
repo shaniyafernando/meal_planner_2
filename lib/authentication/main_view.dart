@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/style_fragments.dart';
-import 'package:meal_planner/views/home_view.dart';
+import 'package:meal_planner/views/recipe/home_view.dart';
 import 'auth.dart';
 
 class MainView extends StatelessWidget {

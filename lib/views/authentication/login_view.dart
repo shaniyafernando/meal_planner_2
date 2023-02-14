@@ -2,15 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
-import 'package:meal_planner/views/forgot_password_view.dart';
-import '../controllers/authentication_service.dart';
-import '../fragments/button.dart';
-import '../fragments/text__field.dart';
-import '../style_fragments.dart';
+import 'package:meal_planner/views/authentication/forgot_password_view.dart';
+import '../../controllers/authentication_service.dart';
+import '../../fragments/button.dart';
+import '../../fragments/text__field.dart';
+import '../../style_fragments.dart';
 
 class LoginView extends StatefulWidget {
   final VoidCallback showRegisterView;
-
   const LoginView({super.key, required this.showRegisterView});
 
   @override

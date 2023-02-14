@@ -8,7 +8,7 @@ import '../models/recipe.dart';
 
 // class ShareModelView{
 
-  convertListToString(List list) {
+  convertListToString(List<dynamic> list) {
     String line = list.toString();
     int i = line.length;
     return line.substring(1, i - 1);
@@ -47,7 +47,7 @@ import '../models/recipe.dart';
 
 
   guestTile(Guest guest) {
-    String name = guest.name ?? 'Name not provided';
+    String name = guest.name;
     String healthReq = convertListToString(guest.healthLabels);
     return pw.Column(
       mainAxisAlignment: pw.MainAxisAlignment.start,

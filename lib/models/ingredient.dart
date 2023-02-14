@@ -17,16 +17,16 @@ class Ingredient {
       required this.foodId});
 
   factory Ingredient.fromFireStore(
-      DocumentSnapshot<Map<String, dynamic>> snapshot,SnapshotOptions? options
+      Map<String, dynamic> object
       ) {
-    final json = snapshot.data();
+    final json = object;
     return Ingredient(
-        foodCategory: json?['foodCategory'] as String,
-        quantity: json?['quantity'] as double,
-        weight: json?['weight'] as double,
-        measure: json?['measure'] as String,
-        food: json?['food'] as String,
-        foodId: json?['foodId'] as String
+        foodCategory: json['foodCategory'],
+        quantity: json['quantity'],
+        weight: json['weight'] ,
+        measure: json['measure'] ,
+        food: json['food'],
+        foodId: json['foodId']
     );
   }
 

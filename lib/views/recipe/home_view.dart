@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/fragments/recipe_card.dart';
-import 'package:meal_planner/views/search_view.dart';
+import 'package:meal_planner/views/recipe/search_view.dart';
 
-import '../controllers/authentication_service.dart';
-import '../controllers/recipe_api.dart';
-import '../fragments/drawer.dart';
-import '../models/recipe.dart';
+import '../../controllers/authentication_service.dart';
+import '../../controllers/recipe_api.dart';
+import '../../fragments/drawer.dart';
+import '../../models/recipe.dart';
 import 'filter_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -17,13 +17,15 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  List<Recipe> recipes = [];
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
 
-    RecipeApi recipeApi = RecipeApi();
-    var data = recipeApi.getRecipesBySearch('fish');
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    var data = RecipeApi().getRecipesBySearch('fish');
 
     var screenWidth = MediaQuery.of(context).size.width;
     int crossAxisCount = 1;
@@ -35,6 +37,7 @@ class _HomeViewState extends State<HomeView> {
     } else {
       crossAxisCount = 3;
     }
+
 
     return Scaffold(
         appBar: AppBar(
@@ -88,7 +91,6 @@ class _HomeViewState extends State<HomeView> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<Recipe>?  snapshotData = snapshot.data;
-
                 return GridView.builder(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 5.0, vertical: 2.5),
@@ -105,7 +107,7 @@ class _HomeViewState extends State<HomeView> {
                       crossAxisCount: crossAxisCount, childAspectRatio: 1.75),
                 );
               } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
+                return Center(child: Text("${snapshot.error}"));
               } else if (!snapshot.hasData) {
                 return const Center(child:  Text("no data"));
               } else {

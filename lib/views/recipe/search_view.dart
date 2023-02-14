@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meal_planner/models/recipe.dart';
 
-import '../controllers/recipe_api.dart';
-import '../fragments/recipe_card.dart';
+import '../../controllers/recipe_api.dart';
+import '../../fragments/recipe_card.dart';
 
 class SearchView extends SearchDelegate {
   @override

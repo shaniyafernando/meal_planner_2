@@ -90,7 +90,7 @@ class RecipeApi{
         dietLabels: hit['recipe']['dietLabels'], healthLabels: hit['recipe']['healthLabels'],
         mealType: hit['recipe']['mealType'], dishType: hit['recipe']['dishType'],
         cuisineType: hit['recipe']['cuisineType'], externalId: hit['recipe']['externalId'], ingredients: ingredients,
-        userId: FirebaseAuth.instance.currentUser!.uid
+        userId: FirebaseAuth.instance.currentUser!.uid, referenceId: ''
       );
       recipes.add(recipe);
     }

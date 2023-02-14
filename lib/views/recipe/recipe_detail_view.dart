@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/controllers/bookmark_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../controllers/share.dart';
-import '../models/recipe.dart';
+import '../../controllers/share.dart';
+import '../../models/recipe.dart';
 
 class RecipeDetailView extends StatefulWidget {
   final Recipe recipe;

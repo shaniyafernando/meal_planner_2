@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:meal_planner/fragments/button.dart';
 import 'package:multiselect/multiselect.dart';
 
-import '../models/lists.dart';
+import '../../models/lists.dart';
 
 class FilterView extends StatefulWidget {
   const FilterView({Key? key}) : super(key: key);
