@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meal_planner/controllers/guest_service.dart';
+import 'package:meal_planner/controllers/guest_controller.dart';
 import 'package:meal_planner/models/lists.dart';
 import 'package:meal_planner/views/guest/guest_list_view.dart';
 import 'package:multiselect/multiselect.dart';
@@ -28,10 +28,6 @@ class _AddGuestState extends State<AddGuest> {
 
     if(widget.guest != null){
       nameController.text = widget.guest!.name;
-      // List<dynamic> healthLabels = widget.guest!.healthLabels;
-      // for (var element in healthLabels) {
-      //   selectedHealthLabels.add(element.toString());
-      // }
     }
 
     if(width < 500){
@@ -94,7 +90,7 @@ class _AddGuestState extends State<AddGuest> {
                     fontSize: 16.0,
                     buttonTapped: (){
                       if(widget.guest != null ){
-                        GuestService().updateGuest( Guest(
+                        GuestController().updateGuest( Guest(
                             name: nameController.text.trim(),
                             healthLabels: selectedHealthLabels,
                             userId: FirebaseAuth.instance.currentUser!.uid,
@@ -106,7 +102,7 @@ class _AddGuestState extends State<AddGuest> {
                             )
                         );
                       }else{
-                        GuestService().addGuest( Guest(
+                        GuestController().addGuest( Guest(
                             name: nameController.text.trim(),
                             healthLabels: selectedHealthLabels,
                             userId: FirebaseAuth.instance.currentUser!.uid));

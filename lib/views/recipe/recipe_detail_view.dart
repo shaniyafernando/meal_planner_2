@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:meal_planner/controllers/bookmark_service.dart';
+import 'package:meal_planner/controllers/bookmark_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../controllers/share.dart';
+import '../../controllers/share_controller.dart';
 import '../../models/recipe.dart';
 
 class RecipeDetailView extends StatefulWidget {
@@ -14,35 +14,45 @@ class RecipeDetailView extends StatefulWidget {
 }
 
 class _RecipeDetailViewState extends State<RecipeDetailView> {
-  final Completer<WebViewController> _completer = Completer<WebViewController>();
+  final Completer<WebViewController> _completer =
+      Completer<WebViewController>();
   BookmarkController bookmarkController = BookmarkController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.lime,
-          title: const Text('foodnertize') ,
+          title: const Text('foodnertize'),
           centerTitle: true,
           actions: [
-            IconButton(onPressed: (){ bookmarkController.addRecipe(widget.recipe);}, icon: const Icon(Icons.bookmark_add)),
-            IconButton(onPressed: (){printDoc("DOWNLOAD", 'recipe', null,null,widget.recipe);}, icon: const Icon(Icons.download_for_offline)),
-            IconButton(onPressed: (){printDoc("SHARE", 'recipe', null,null,widget.recipe);}, icon: const Icon(Icons.share)),
+            IconButton(
+                onPressed: () {
+                  bookmarkController.addRecipe(widget.recipe);
+                },
+                icon: const Icon(Icons.bookmark_add)),
+            IconButton(
+                onPressed: () {
+                  ShareController().printDoc(
+                      "DOWNLOAD", 'recipe', null, null, widget.recipe);
+                },
+                icon: const Icon(Icons.download_for_offline)),
+            IconButton(
+                onPressed: () {
+                  ShareController()
+                      .printDoc("SHARE", 'recipe', null, null, widget.recipe);
+                },
+                icon: const Icon(Icons.share)),
           ],
         ),
-        body: Container(
+        body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: WebView(
-            initialUrl: widget.recipe.url ,
-            onWebViewCreated: ((WebViewController webViewController){
+            initialUrl: widget.recipe.url,
+            onWebViewCreated: ((WebViewController webViewController) {
               _completer.complete(webViewController);
             }),
           ),
-        )
-    );
+        ));
   }
-
 }
-
-
-

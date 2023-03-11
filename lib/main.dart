@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:meal_planner/style_fragments.dart';
 import 'package:meal_planner/authentication/main_view.dart';
-import 'package:provider/provider.dart';
-import 'controllers/authentication_service.dart';
 import 'register_web_webview_stub.dart'
 if (dart.library.html) 'register_web_webview.dart';
 
@@ -28,16 +25,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance)
-        ),
-      ],
-      child: MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -50,7 +40,6 @@ class MyApp extends StatelessWidget {
           )
         ),
         home:  const MainView(),
-      ),
     );
   }
 }

@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_ranger/date_ranger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meal_planner/controllers/share.dart';
+import 'package:meal_planner/controllers/share_controller.dart';
 import 'package:meal_planner/fragments/button.dart';
+import 'package:meal_planner/utils.dart';
 import 'package:meal_planner/views/meal%20plan/add_meal_plan_view.dart';
 import 'package:meal_planner/views/meal%20plan/shopping_list_view.dart';
-import '../../controllers/meal_plan_service.dart';
+import '../../controllers/meal_plan_controller.dart';
 import '../../fragments/drawer.dart';
 import '../../models/ingredient.dart';
 import '../../models/meal_plan.dart';
@@ -63,7 +64,7 @@ class _PlannerMobileViewState extends State<PlannerMobileView> {
                 Map<String,List<String>> mealPlans = {
                   '23-02-2023':['Number of servings: 3','guests: Shaniya Fernando','recipes: Homemade fish fingers']
                 };
-                printDoc("DOWNLOAD", "meal-plan", mealPlans, null, null);
+                ShareController().printDoc("DOWNLOAD", "meal-plan", mealPlans, null, null);
               },
               icon: const Icon(Icons.download_for_offline)),
           IconButton(
@@ -71,7 +72,7 @@ class _PlannerMobileViewState extends State<PlannerMobileView> {
                 Map<String,List<String>> mealPlans = {
                   '23-02-2023':['Number of servings: 3','guests: Shaniya Fernando','recipes: Homemade fish fingers']
                 };
-                printDoc("SHARE", "meal-plan", mealPlans, null, null);
+                ShareController().printDoc("SHARE", "meal-plan", mealPlans, null, null);
               },
               icon: const Icon(Icons.share)),
         ],
@@ -189,7 +190,7 @@ class _PlannerMobileViewState extends State<PlannerMobileView> {
                                           icon: const Icon(Icons.edit)),
                                       IconButton(
                                           onPressed: () {
-                                            MealPlanService().deleteMealPlan(data.elementAt(index).data());
+                                            MealPlanController().deleteMealPlan(data.elementAt(index).data());
                                           },
                                           icon: const Icon(Icons.delete)),
                                     ],

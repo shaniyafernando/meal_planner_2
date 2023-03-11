@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:meal_planner/fragments/recipe_card.dart';
 import 'package:meal_planner/views/recipe/search_view.dart';
 
-import '../../controllers/authentication_service.dart';
+import '../../controllers/authentication_controller.dart';
 import '../../controllers/recipe_api.dart';
 import '../../fragments/drawer.dart';
 import '../../models/recipe.dart';
@@ -72,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
                 )),
             IconButton(
                 onPressed: () {
-                  AuthenticationService(FirebaseAuth.instance).signOut(context);
+                  AuthenticationController(FirebaseAuth.instance).signOut(context);
                 },
                 icon: const Padding(
                   padding: EdgeInsets.only(right: 20.0),

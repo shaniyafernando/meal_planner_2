@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../models/guest.dart';
 
-class GuestService{
+class GuestController{
   final CollectionReference collection =
   FirebaseFirestore.instance.collection('guest');
 

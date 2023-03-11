@@ -4,7 +4,7 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:meal_planner/style_fragments.dart';
 
-import '../../controllers/authentication_service.dart';
+import '../../controllers/authentication_controller.dart';
 import '../../fragments/button.dart';
 import '../../fragments/text__field.dart';
 
@@ -34,7 +34,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   Future signUp() async {
     if (passwordConfirmed()) {
-      AuthenticationService(FirebaseAuth.instance).signUpWithEmailAndPassword(
+      AuthenticationController(FirebaseAuth.instance).signUpWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
           context: context);
@@ -149,7 +149,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Buttons.Google,
                 text: "Sign up with Google",
                 onPressed: () {
-                  AuthenticationService(FirebaseAuth.instance).
+                  AuthenticationController(FirebaseAuth.instance).
                   signInWithGoogle(context);
                 },
               ),

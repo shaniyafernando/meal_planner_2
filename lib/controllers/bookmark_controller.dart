@@ -10,9 +10,11 @@ class BookmarkController {
   FirebaseFirestore.instance.collection('recipe');
 
 
-  // Stream<QuerySnapshot> getStream() {
-  //   FirebaseFirestore.instance.collection('recipe').where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid).snapshots();
-  // }
+  Stream<QuerySnapshot> getStream() {
+    return FirebaseFirestore.instance.collection('recipe')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .snapshots();
+  }
 
   Future<DocumentReference> addRecipe(Recipe recipe) {
     return collection.add(recipe.toFireStore());

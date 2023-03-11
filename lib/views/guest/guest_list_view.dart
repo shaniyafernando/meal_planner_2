@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meal_planner/controllers/guest_service.dart';
+import 'package:meal_planner/controllers/guest_controller.dart';
 import 'package:meal_planner/views/guest/add_guest_view.dart';
-import '../../controllers/share.dart';
+import '../../controllers/share_controller.dart';
 import '../../fragments/drawer.dart';
 import '../../models/guest.dart';
+import '../../utils.dart';
 
 class GuestListView extends StatefulWidget {
   const GuestListView({Key? key}) : super(key: key);
@@ -46,12 +47,12 @@ class _GuestListViewState extends State<GuestListView> {
               )),
           IconButton(
               onPressed: () {
-                printDoc("DOWNLOAD", 'guest', null, guestList, null);
+                ShareController().printDoc("DOWNLOAD", 'guest', null, guestList, null);
               },
               icon: const Icon(Icons.download_for_offline)),
           IconButton(
               onPressed: () {
-                printDoc("SHARE", 'guest', null,guestList, null);
+                ShareController().printDoc("SHARE", 'guest', null,guestList, null);
               },
               icon: const Icon(Icons.share)),
         ],
@@ -77,7 +78,7 @@ class _GuestListViewState extends State<GuestListView> {
                     title: Text(guest.name),
                     subtitle: Text(convertListToString(guest.healthLabels)),
                     leading: IconButton(onPressed:  (){
-                      GuestService().deleteGuest(guest);
+                      GuestController().deleteGuest(guest);
                     }, icon: const Icon(Icons.delete)),
                     trailing: IconButton(onPressed:  (){
                       Navigator.of(context).push(

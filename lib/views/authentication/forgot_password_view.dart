@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meal_planner/fragments/dialog.dart';
-import 'package:meal_planner/style_fragments.dart';
 
-import '../../controllers/authentication_service.dart';
+import '../../controllers/authentication_controller.dart';
 import '../../fragments/button.dart';
 import '../../fragments/text__field.dart';
 
@@ -74,7 +72,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     buttonText: 'Reset password',
                     fontSize: 16.0,
                     buttonTapped: (){
-                      AuthenticationService(FirebaseAuth.instance).resetPassword(context, _emailController.text.trim());
+                      AuthenticationController(FirebaseAuth.instance).resetPassword(context, _emailController.text.trim());
                     }),
               ),
             ],

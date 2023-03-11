@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:meal_planner/views/authentication/forgot_password_view.dart';
-import '../../controllers/authentication_service.dart';
+import '../../controllers/authentication_controller.dart';
 import '../../fragments/button.dart';
 import '../../fragments/text__field.dart';
 import '../../style_fragments.dart';
@@ -29,7 +29,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void signIn(){
-    AuthenticationService(FirebaseAuth.instance).signInWithEmailAndPassword(
+    AuthenticationController(FirebaseAuth.instance).signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
         context: context);
@@ -147,7 +147,7 @@ class _LoginViewState extends State<LoginView> {
                         Buttons.Google,
                         text: "Sign in with Google",
                         onPressed: () {
-                          AuthenticationService(FirebaseAuth.instance).
+                          AuthenticationController(FirebaseAuth.instance).
                           signInWithGoogle(context);
                         },
                       ),

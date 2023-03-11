@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:group_list_view/group_list_view.dart';
 import 'package:meal_planner/models/ingredient.dart';
 import 'package:meal_planner/models/recipe.dart';
-import '../../controllers/share.dart';
+import '../../controllers/share_controller.dart';
 import '../../fragments/drawer.dart';
 import '../../models/meal_plan.dart';
 
@@ -97,12 +97,12 @@ class ShoppingListView extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  printDoc("DOWNLOAD", 'shopping-list', groupedShoppingList, null, null);
+                  ShareController().printDoc("DOWNLOAD", 'shopping-list', groupedShoppingList, null, null);
                 },
                 icon: const Icon(Icons.download_for_offline)),
             IconButton(
                 onPressed: () {
-                  printDoc("SHARE", 'shopping-list', groupedShoppingList, null, null);
+                  ShareController().printDoc("SHARE", 'shopping-list', groupedShoppingList, null, null);
                 },
                 icon: const Icon(Icons.share)),
           ],

@@ -5,11 +5,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../utils.dart';
 
-class AuthenticationService{
+class AuthenticationController{
 
   final FirebaseAuth _auth;
 
-  AuthenticationService(this._auth);
+  AuthenticationController(this._auth);
 
 
   Future<void> signUpWithEmailAndPassword({

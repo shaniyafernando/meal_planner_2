@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meal_planner/controllers/meal_plan_service.dart';
+import 'package:meal_planner/controllers/meal_plan_controller.dart';
 import 'package:meal_planner/models/meal_plan.dart';
 import 'package:multiselect/multiselect.dart';
 
@@ -312,7 +312,7 @@ class _AddMealPlanViewState extends State<AddMealPlanView> {
                     );
 
                     if(widget.existingMealPlan == null){
-                      MealPlanService().addMealPlan(mealPlan);
+                      MealPlanController().addMealPlan(mealPlan);
                     }else{
                       MealPlan updateMealPlan = MealPlan(
                           date: dateTime,
@@ -323,7 +323,7 @@ class _AddMealPlanViewState extends State<AddMealPlanView> {
                           uid: FirebaseAuth.instance.currentUser!.uid,
                         referenceId: widget.existingMealPlan!.referenceId
                       );
-                      MealPlanService().updateMealPlan(updateMealPlan);
+                      MealPlanController().updateMealPlan(updateMealPlan);
                     }
 
                   })

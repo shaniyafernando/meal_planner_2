@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:meal_planner/controllers/bookmark_service.dart';
-import 'package:meal_planner/controllers/share.dart';
+import 'package:meal_planner/controllers/bookmark_controller.dart';
+import 'package:meal_planner/controllers/share_controller.dart';
 import 'package:meal_planner/views/recipe/recipe_detail_view.dart';
 
 import '../models/recipe.dart';
+import '../utils.dart';
 
 
 class RecipeCard extends StatelessWidget {

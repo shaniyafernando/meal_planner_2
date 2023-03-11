@@ -5,14 +5,11 @@ import 'package:printing/printing.dart';
 
 import '../models/guest.dart';
 import '../models/recipe.dart';
+import '../utils.dart';
 
-// class ShareModelView{
+class ShareController{
 
-  convertListToString(List<dynamic> list) {
-    String line = list.toString();
-    int i = line.length;
-    return line.substring(1, i - 1);
-  }
+
 
   buildRecipePdfContent(Recipe recipe) {
     String source = recipe.source ?? 'Not Available'; String url = recipe.url ?? 'Not Available';
@@ -157,6 +154,6 @@ import '../models/recipe.dart';
 
 
 
-// }
+}
 
 
